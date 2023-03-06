@@ -9,6 +9,9 @@ function initMap(): void {
     mapTypeId: 'satellite',
     disableDefaultUI: true,
     zoomControl: true,
+    draggable: false,
+    scrollwheel: false,
+    panControl: false,
   });
 
   const gymCoords: google.maps.LatLngLiteral[] = [
