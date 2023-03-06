@@ -19,14 +19,7 @@ function initMap(): void {
   ];
 
   // Construct the polygon.
-  const gymPolygon = new google.maps.Polygon({
-    paths: gymCoords,
-    strokeColor: "red",
-    strokeOpacity: 0.8,
-    strokeWeight: 2,
-    fillColor: "red",
-    fillOpacity: 0.35,
-  })
+  const gymPolygon = createAreaPolygon(gymCoords)
 
   gymPolygon.setMap(map);
 
@@ -37,6 +30,21 @@ function initMap(): void {
       lng: event.latLng.lng()
     });
   });
+}
+
+function createAreaPolygon (coords: google.maps.LatLngLiteral[]) {
+  if (2 > coords.length) {
+    throw new Error('coords 의 갯수는 3 이상이여야 합니다.')
+  }
+
+  return new google.maps.Polygon({
+    paths: coords,
+    strokeColor: "red",
+    strokeOpacity: 0.8,
+    strokeWeight: 2,
+    fillColor: "red",
+    fillOpacity: 0.35,
+  })
 }
 
 declare global {
