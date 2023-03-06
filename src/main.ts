@@ -29,6 +29,14 @@ function initMap(): void {
   })
 
   gymPolygon.setMap(map);
+
+  // 클릭하면 클릭 위치 위도/경도 콘솔 출력
+  google.maps.event.addListener(map, "click", (event: any) => {
+    console.table({
+      lat: event.latLng.lat(),
+      lng: event.latLng.lng()
+    });
+  });
 }
 
 declare global {
