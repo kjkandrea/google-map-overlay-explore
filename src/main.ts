@@ -18,10 +18,19 @@ function initMap(): void {
     { lat: sandyHookElementarySchoolLatLng.lat - 0.00055, lng: sandyHookElementarySchoolLatLng.lng - 0.00050 },
   ];
 
+  const educationBuildingCoords: google.maps.LatLngLiteral[] = [
+    { lat: 41.41979526572689, lng: -73.2775922826564 },
+    { lat: 41.41991393478034, lng: -73.27739916360733 },
+    { lat: 41.419596142590706, lng: -73.27705584085342 },
+    { lat: 41.419493563767126, lng: -73.27724091327545 },
+  ];
+
   // Construct the polygon.
   const gymPolygon = createAreaPolygon(gymCoords)
+  const educationBuildingPolygon= createAreaPolygon(educationBuildingCoords)
 
   gymPolygon.setMap(map);
+  educationBuildingPolygon.setMap(map);
 
   // 클릭하면 클릭 위치 위도/경도 콘솔 출력
   google.maps.event.addListener(map, "click", (event: any) => {
