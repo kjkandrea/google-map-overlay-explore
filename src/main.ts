@@ -47,16 +47,29 @@ declare global {
 function initController(mapView: MapView) {
   const controllerElement = document.getElementById('controller')!;
 
-  const marker = new google.maps.Marker({
-    position: markerPosition,
-    map: mapView.getMap(),
-    opacity: 0
-  });
+  const marker = createMarker()
 
   controllerElement.append(createResetButton())
   controllerElement.append(createEducationBuildingZoomToButton())
   controllerElement.append(createShowMarkerToEducationBuildingButton())
   controllerElement.append(createHideMarkerToEducationBuildingButton())
+
+  function createMarker() {
+    const marker = new google.maps.Marker({
+      position: markerPosition,
+      map: mapView.getMap(),
+      opacity: 0,
+    });
+
+    marker.addListener('click', (event: any) => {
+      if (marker.getOpacity() === 0) {
+        return;
+      }
+      console.log(event)
+    })
+
+    return marker;
+  }
 
   function createResetButton() {
     const resetButton = document.createElement('button');
