@@ -10,6 +10,7 @@ export interface MapDisplayOptions {
 }
 
 export interface MapLocationPolygon {
+  id: number;
   locationName: string;
   paths: Array<LatLngLiteral>
 }
