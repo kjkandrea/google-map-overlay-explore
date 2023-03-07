@@ -5,7 +5,7 @@ import beachFlagImage from './assets/images/beachflag.png'
 
 const sandyHookElementarySchoolMapDisplayOptions: MapDisplayOptions = {
   mapName: 'Sandy Hook Elementary School',
-  center: { lat: 41.419961, lng: -73.2773997 },
+  center: {lat: 41.419961, lng: -73.2773997},
   defaultZoom: 19
 }
 
@@ -13,10 +13,10 @@ const educationBuildingMapLocationPolygon: MapLocationPolygon = {
   id: 1,
   locationName: 'Education Building',
   paths: [
-    { lat: 41.41979526572689, lng: -73.2775922826564 },
-    { lat: 41.41991393478034, lng: -73.27739916360733 },
-    { lat: 41.419596142590706, lng: -73.27705584085342 },
-    { lat: 41.419493563767126, lng: -73.27724091327545 },
+    {lat: 41.41979526572689, lng: -73.2775922826564},
+    {lat: 41.41991393478034, lng: -73.27739916360733},
+    {lat: 41.419596142590706, lng: -73.27705584085342},
+    {lat: 41.419493563767126, lng: -73.27724091327545},
   ]
 }
 
@@ -36,12 +36,6 @@ function initMap(): void {
   mapView.setLocationPolygon(educationBuildingMapLocationPolygon)
   initController(mapView);
 
-  new google.maps.Marker({
-    position: markerPosition,
-    map: mapView.getMap(),
-    icon: beachFlagImage,
-  });
-
 }
 
 declare global {
@@ -53,24 +47,66 @@ declare global {
 function initController(mapView: MapView) {
   const controllerElement = document.getElementById('controller')!;
 
-  const educationBuildingZoomToButton = document.createElement('button')
-  educationBuildingZoomToButton.type = 'button'
-  educationBuildingZoomToButton.textContent = educationBuildingMapLocationPolygon.locationName
+  const marker = new google.maps.Marker({
+    position: markerPosition,
+    map: mapView.getMap(),
+    opacity: 0
+  });
 
-  educationBuildingZoomToButton.addEventListener('click', () => {
-    mapView.zoomTo(educationBuildingMapLocationPolygon);
-  })
+  controllerElement.append(createResetButton())
+  controllerElement.append(createEducationBuildingZoomToButton())
+  controllerElement.append(createShowMarkerToEducationBuildingButton())
+  controllerElement.append(createHideMarkerToEducationBuildingButton())
 
-  const resetButton = document.createElement('button');
-  resetButton.type = 'button'
-  resetButton.textContent = 'reset viewport'
+  function createResetButton() {
+    const resetButton = document.createElement('button');
+    resetButton.type = 'button'
+    resetButton.textContent = 'reset viewport'
 
-  resetButton.addEventListener('click', () => {
-    mapView.resetViewport();
-  })
+    resetButton.addEventListener('click', () => {
+      mapView.resetViewport();
+    })
+    return resetButton;
+  }
 
-  controllerElement.append(resetButton)
-  controllerElement.append(educationBuildingZoomToButton)
+  function createEducationBuildingZoomToButton() {
+    const educationBuildingZoomToButton = document.createElement('button')
+    educationBuildingZoomToButton.type = 'button'
+    educationBuildingZoomToButton.textContent = educationBuildingMapLocationPolygon.locationName
+
+    educationBuildingZoomToButton.addEventListener('click', () => {
+      mapView.zoomTo(educationBuildingMapLocationPolygon);
+    })
+    return educationBuildingZoomToButton;
+  }
+
+
+  function createShowMarkerToEducationBuildingButton() {
+    const showMarkerToEducationBuildingButton = document.createElement('button')
+    showMarkerToEducationBuildingButton.type = 'button'
+    showMarkerToEducationBuildingButton.textContent = `show ${educationBuildingMapLocationPolygon.locationName} marker`
+
+    showMarkerToEducationBuildingButton.addEventListener('click', () => {
+      marker.setIcon(beachFlagImage)
+      marker.setOpacity(1)
+    })
+
+    return showMarkerToEducationBuildingButton;
+  }
+
+  function createHideMarkerToEducationBuildingButton() {
+    const hideMarkerToEducationBuildingButton = document.createElement('button')
+    hideMarkerToEducationBuildingButton.type = 'button'
+    hideMarkerToEducationBuildingButton.textContent = `hide ${educationBuildingMapLocationPolygon.locationName} marker`
+
+    hideMarkerToEducationBuildingButton.addEventListener('click', () => {
+      marker.setIcon(null)
+      marker.setOpacity(0)
+    })
+
+    return hideMarkerToEducationBuildingButton;
+  }
+
 }
 
 window.initMap = initMap;
