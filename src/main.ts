@@ -48,6 +48,17 @@ function initController(mapView: MapView) {
   const controllerElement = document.getElementById('controller')!;
 
   const marker = createMarker()
+  const infoWindow = new google.maps.InfoWindow({
+    content: `
+      <div>
+        <h1>Our Values</h1>
+        <p>We believe in being open and accepng of ourselves, others and life.</p>
+        <p>We believe in listening to and sensing other’s thoughts and feelings while finding ways to support them.</p>
+      </div>
+    `,
+    ariaLabel: "Uluru",
+    zIndex: 2,
+  });
 
   controllerElement.append(createResetButton())
   controllerElement.append(createEducationBuildingZoomToButton())
@@ -58,14 +69,19 @@ function initController(mapView: MapView) {
     const marker = new google.maps.Marker({
       position: markerPosition,
       map: mapView.getMap(),
-      opacity: 0,
+      icon: beachFlagImage,
+      opacity: 1,
+      zIndex: 2,
     });
 
-    marker.addListener('click', (event: any) => {
+    marker.addListener('click', () => {
       if (marker.getOpacity() === 0) {
         return;
       }
-      console.log(event)
+      infoWindow.open({
+        anchor: marker,
+        map: mapView.getMap(),
+      });
     })
 
     return marker;
@@ -100,7 +116,6 @@ function initController(mapView: MapView) {
     showMarkerToEducationBuildingButton.textContent = `show ${educationBuildingMapLocationPolygon.locationName} marker`
 
     showMarkerToEducationBuildingButton.addEventListener('click', () => {
-      marker.setIcon(beachFlagImage)
       marker.setOpacity(1)
     })
 
@@ -113,8 +128,8 @@ function initController(mapView: MapView) {
     hideMarkerToEducationBuildingButton.textContent = `hide ${educationBuildingMapLocationPolygon.locationName} marker`
 
     hideMarkerToEducationBuildingButton.addEventListener('click', () => {
-      marker.setIcon(null)
       marker.setOpacity(0)
+      infoWindow.close()
     })
 
     return hideMarkerToEducationBuildingButton;

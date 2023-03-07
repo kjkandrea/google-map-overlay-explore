@@ -19,3 +19,8 @@ body {
   gap: 5px;
   padding: 10px;
 }
+
+/* google map 스타일 오버라이드가 가능한가? */
+body .gm-style .gm-style-iw-tc {
+  display: none
+}
