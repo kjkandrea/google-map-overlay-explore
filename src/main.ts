@@ -31,24 +31,10 @@ function initMap(): void {
     });
   });
 
-  // setTimeout(() => {
-  //   map.setZoom(30); // mapTypeId: 'satellite' 에는 zoom limit 가 존재하는듯?
-  //   map.setTilt(45);
-  //   map.setCenter(getCenterPath(educationBuildingCoords))
-  // }, 2000)
+  setTimeout(() => {
+    mapView.zoomTo(educationBuildingMapLocationPolygon);
+  }, 2000)
 }
-
-// function getCenterPath(paths: google.maps.LatLngLiteral[]): google.maps.LatLngLiteral {
-//   const total = paths.reduce((acc, { lat, lng }) => ({
-//     lat: acc.lat + lat,
-//     lng: acc.lng + lng,
-//   }), { lat: 0, lng: 0})
-//
-//   return {
-//     lat: total.lat / paths.length,
-//     lng: total.lng / paths.length,
-//   }
-// }
 
 declare global {
   interface Window {

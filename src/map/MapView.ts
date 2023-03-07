@@ -24,7 +24,7 @@ export default class MapView {
   public setLocationPolygon(mapLocationPolygon: MapLocationPolygon) {
     if (!this.locationPolygonMap.has(mapLocationPolygon.id)) {
       const locationPolygon = this.createLocationPolygon(mapLocationPolygon.paths)
-      this.locationPolygonMap.set(mapLocationPolygon.id,  locationPolygon)
+      this.locationPolygonMap.set(mapLocationPolygon.id, locationPolygon)
     }
 
     this.locationPolygonMap.get(mapLocationPolygon.id)!.setMap(this.map)
@@ -34,7 +34,14 @@ export default class MapView {
     this.locationPolygonMap.get(mapLocationPolygonId)?.setMap(null)
   }
 
-  private createLocationPolygon (coords: google.maps.LatLngLiteral[]): google.maps.Polygon {
+  public zoomTo(mapLocationPolygon: MapLocationPolygon) {
+    const target = this.locationPolygonMap.get(mapLocationPolygon.id)
+    if (!target) return;
+    this.map.setCenter(this.getCenterLatLngLiteral(mapLocationPolygon.paths))
+    this.map.setZoom(20) // mapTypeId: 'satellite' 에는 zoom limit 가 존재하는듯?
+  }
+
+  private createLocationPolygon(coords: google.maps.LatLngLiteral[]): google.maps.Polygon {
     if (2 > coords.length) {
       throw new Error('coords 의 갯수는 3 이상이여야 합니다.')
     }
@@ -47,5 +54,17 @@ export default class MapView {
       fillColor: "red",
       fillOpacity: 0.35,
     })
+  }
+
+  private getCenterLatLngLiteral(paths: google.maps.LatLngLiteral[]): google.maps.LatLngLiteral {
+    const total = paths.reduce((acc, {lat, lng}) => ({
+      lat: acc.lat + lat,
+      lng: acc.lng + lng,
+    }), {lat: 0, lng: 0})
+
+    return {
+      lat: total.lat / paths.length,
+      lng: total.lng / paths.length,
+    }
   }
 }
