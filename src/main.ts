@@ -21,7 +21,6 @@ const educationBuildingMapLocationPolygon: MapLocationPolygon = {
 
 function initMap(): void {
   const mapView = new MapView(document.getElementById('map') as HTMLElement, sandyHookElementarySchoolMapDisplayOptions)
-  mapView.setLocationPolygon(educationBuildingMapLocationPolygon)
 
   // 클릭하면 클릭 위치 위도/경도 콘솔 출력
   google.maps.event.addListener(mapView.getMap(), "click", (event: any) => {
@@ -31,9 +30,8 @@ function initMap(): void {
     });
   });
 
-  setTimeout(() => {
-    mapView.zoomTo(educationBuildingMapLocationPolygon);
-  }, 2000)
+  mapView.setLocationPolygon(educationBuildingMapLocationPolygon)
+  initController(mapView);
 }
 
 declare global {
@@ -41,4 +39,19 @@ declare global {
     initMap: () => void;
   }
 }
+
+function initController(mapView: MapView) {
+  const controllerElement = document.getElementById('controller')!;
+
+  const educationBuildingZoomToButton = document.createElement('button')
+  educationBuildingZoomToButton.type = 'button'
+  educationBuildingZoomToButton.textContent = educationBuildingMapLocationPolygon.locationName
+
+  educationBuildingZoomToButton.addEventListener('click', () => {
+    mapView.zoomTo(educationBuildingMapLocationPolygon);
+  })
+
+  controllerElement.append(educationBuildingZoomToButton)
+}
+
 window.initMap = initMap;
