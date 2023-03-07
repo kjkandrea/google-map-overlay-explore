@@ -34,6 +34,7 @@ function initMap(): void {
 
   gymPolygon.setMap(map);
   educationBuildingPolygon.setMap(map);
+  gymPolygon.setMap(null);
 
   // 클릭하면 클릭 위치 위도/경도 콘솔 출력
   google.maps.event.addListener(map, "click", (event: any) => {
