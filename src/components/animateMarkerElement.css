@@ -1,0 +1,37 @@
+.animate-wrapper {
+  position: relative;
+}
+
+.emitter {
+  position: relative;
+  margin: 0 auto;
+  width: 15px;
+  height: 15px;
+  border-radius: 9999px;
+  background-color: red;
+}
+
+.wave {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 15px;
+  height: 15px;
+  border-radius: 9999px;
+  background-color: red;
+  opacity: 0;
+}
+
+.wave {
+  animation: Wave 1s linear infinite;
+}
+
+@keyframes Wave {
+  from {
+    opacity: 0.9;
+  }
+  to {
+    transform: scale(3);
+    opacity: 0;
+  }
+}
