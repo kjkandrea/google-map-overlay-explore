@@ -48,17 +48,7 @@ function initController(mapView: MapView) {
   const controllerElement = document.getElementById('controller')!;
 
   const marker = createMarker()
-  const infoWindow = new google.maps.InfoWindow({
-    content: `
-      <div>
-        <h1>Our Values</h1>
-        <p>We believe in being open and accepng of ourselves, others and life.</p>
-        <p>We believe in listening to and sensing other’s thoughts and feelings while finding ways to support them.</p>
-      </div>
-    `,
-    ariaLabel: "Uluru",
-    zIndex: 2,
-  });
+  const infoWindow = createInfoWindow()
 
   controllerElement.append(createResetButton())
   controllerElement.append(createEducationBuildingZoomToButton())
@@ -82,9 +72,30 @@ function initController(mapView: MapView) {
         anchor: marker,
         map: mapView.getMap(),
       });
+      mapView.showDimmed(1)
     })
 
     return marker;
+  }
+
+  function createInfoWindow() {
+    const infoWindow = new google.maps.InfoWindow({
+      content: `
+      <div>
+        <h1>Our Values</h1>
+        <p>We believe in being open and accepng of ourselves, others and life.</p>
+        <p>We believe in listening to and sensing other’s thoughts and feelings while finding ways to support them.</p>
+      </div>
+    `,
+      ariaLabel: "Uluru",
+      zIndex: 2,
+    });
+
+    infoWindow.addListener('closeclick', () => {
+      mapView.hideDimmed()
+    })
+
+    return infoWindow;
   }
 
   function createResetButton() {
@@ -129,6 +140,7 @@ function initController(mapView: MapView) {
 
     hideMarkerToEducationBuildingButton.addEventListener('click', () => {
       marker.setOpacity(0)
+      mapView.hideDimmed()
       infoWindow.close()
     })
 

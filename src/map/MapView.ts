@@ -4,6 +4,7 @@ export default class MapView {
   private readonly mapDisplayOptions: MapDisplayOptions;
   private readonly map: google.maps.Map;
   private readonly locationPolygonMap = new Map<MapLocationPolygon['id'], google.maps.Polygon>()
+  private readonly dimmedRectangle = this.createDimmedRectangle()
 
   constructor(mapParentElement: HTMLElement, mapDisplayOptions: MapDisplayOptions) {
     this.mapDisplayOptions = mapDisplayOptions;
@@ -49,6 +50,32 @@ export default class MapView {
     this.map.setZoom(this.mapDisplayOptions.defaultZoom)
   }
 
+  public showDimmed(zIndex: number = 1) {
+    this.map.setOptions({
+      zoomControl: false
+    })
+    this.dimmedRectangle.setOptions({
+      strokeColor: "black",
+      strokeOpacity: 0.8,
+      strokeWeight: 2,
+      fillColor: "black",
+      fillOpacity: 0.35,
+      zIndex: zIndex,
+      map: this.map,
+      bounds: this.map.getBounds() as google.maps.LatLngBounds,
+    });
+  }
+
+  public hideDimmed() {
+    this.map.setOptions({
+      zoomControl: true
+    })
+    this.dimmedRectangle.setOptions({
+      zIndex: 1,
+      map: null
+    })
+  }
+
   private createLocationPolygon(coords: google.maps.LatLngLiteral[]): google.maps.Polygon {
     if (2 > coords.length) {
       throw new Error('coords 의 갯수는 3 이상이여야 합니다.')
@@ -62,6 +89,12 @@ export default class MapView {
       fillColor: "red",
       fillOpacity: 0.35,
     })
+  }
+
+  private createDimmedRectangle(): google.maps.Rectangle {
+    return new google.maps.Rectangle({
+      zIndex: 1
+    });
   }
 
   private getCenterLatLngLiteral(paths: google.maps.LatLngLiteral[]): google.maps.LatLngLiteral {
