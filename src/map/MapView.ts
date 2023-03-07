@@ -1,10 +1,12 @@
 import {MapDisplayOptions, MapLocationPolygon} from "./values";
 
 export default class MapView {
+  private readonly mapDisplayOptions: MapDisplayOptions;
   private readonly map: google.maps.Map;
   private readonly locationPolygonMap = new Map<MapLocationPolygon['id'], google.maps.Polygon>()
 
   constructor(mapParentElement: HTMLElement, mapDisplayOptions: MapDisplayOptions) {
+    this.mapDisplayOptions = mapDisplayOptions;
     this.map = new google.maps.Map(mapParentElement, {
       center: mapDisplayOptions.center,
       zoom: mapDisplayOptions.defaultZoom,
@@ -39,6 +41,11 @@ export default class MapView {
     if (!target) return;
     this.map.setCenter(this.getCenterLatLngLiteral(mapLocationPolygon.paths))
     this.map.setZoom(20) // mapTypeId: 'satellite' 에는 zoom limit 가 존재하는듯?
+  }
+
+  public resetViewport() {
+    this.map.setCenter(this.mapDisplayOptions.center)
+    this.map.setZoom(this.mapDisplayOptions.defaultZoom)
   }
 
   private createLocationPolygon(coords: google.maps.LatLngLiteral[]): google.maps.Polygon {

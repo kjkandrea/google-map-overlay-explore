@@ -51,6 +51,15 @@ function initController(mapView: MapView) {
     mapView.zoomTo(educationBuildingMapLocationPolygon);
   })
 
+  const resetButton = document.createElement('button');
+  resetButton.type = 'button'
+  resetButton.textContent = 'reset viewport'
+
+  resetButton.addEventListener('click', () => {
+    mapView.resetViewport();
+  })
+
+  controllerElement.append(resetButton)
   controllerElement.append(educationBuildingZoomToButton)
 }
 
