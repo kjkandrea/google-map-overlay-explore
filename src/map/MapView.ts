@@ -39,6 +39,7 @@ export default class MapView {
   public zoomTo(mapLocationPolygon: MapLocationPolygon) {
     const target = this.locationPolygonMap.get(mapLocationPolygon.id)
     if (!target) return;
+    console.log(this.getCenterLatLngLiteral(mapLocationPolygon.paths))
     this.map.setCenter(this.getCenterLatLngLiteral(mapLocationPolygon.paths))
     this.map.setZoom(20) // mapTypeId: 'satellite' 에는 zoom limit 가 존재하는듯?
   }

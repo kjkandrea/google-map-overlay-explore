@@ -1,6 +1,7 @@
 import './style.css'
 import MapView from "./map/MapView";
 import {MapDisplayOptions, MapLocationPolygon} from "./map/values";
+import beachFlagImage from './assets/images/beachflag.png'
 
 const sandyHookElementarySchoolMapDisplayOptions: MapDisplayOptions = {
   mapName: 'Sandy Hook Elementary School',
@@ -19,6 +20,8 @@ const educationBuildingMapLocationPolygon: MapLocationPolygon = {
   ]
 }
 
+const markerPosition = {lat: 41.41969972671627, lng: -73.27732205009815}
+
 function initMap(): void {
   const mapView = new MapView(document.getElementById('map') as HTMLElement, sandyHookElementarySchoolMapDisplayOptions)
 
@@ -32,6 +35,13 @@ function initMap(): void {
 
   mapView.setLocationPolygon(educationBuildingMapLocationPolygon)
   initController(mapView);
+
+  new google.maps.Marker({
+    position: markerPosition,
+    map: mapView.getMap(),
+    icon: beachFlagImage,
+  });
+
 }
 
 declare global {
