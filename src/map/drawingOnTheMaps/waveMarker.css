@@ -1,10 +1,11 @@
 .animate-wrapper {
   position: relative;
+  width: 15px;
+  height: 15px;
 }
 
 .emitter {
   position: relative;
-  margin: 0 auto;
   width: 15px;
   height: 15px;
   border-radius: 9999px;

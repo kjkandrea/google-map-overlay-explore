@@ -1,4 +1,4 @@
-@import "./components/animateMarkerElement.css";
+@import "./map/drawingOnTheMaps/waveMarker.css";
 
 body {
   margin: 0;

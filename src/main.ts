@@ -1,7 +1,7 @@
 import './style.css'
 import MapView from "./map/MapView";
 import {MapDisplayOptions, MapLocationPolygon} from "./map/values";
-import beachFlagImage from './assets/images/beachflag.png'
+import {createWaveMarkerConstructor} from "./map/drawingOnTheMaps/WaveMarker";
 
 const sandyHookElementarySchoolMapDisplayOptions: MapDisplayOptions = {
   mapName: 'Sandy Hook Elementary School',
@@ -46,36 +46,30 @@ declare global {
 
 function initController(mapView: MapView) {
   const controllerElement = document.getElementById('controller')!;
-
-  const marker = createMarker()
   const infoWindow = createInfoWindow()
+  const waveMarker = createWaveMarker()
 
+  waveMarker.setMap(mapView.getMap())
   controllerElement.append(createResetButton())
   controllerElement.append(createEducationBuildingZoomToButton())
   controllerElement.append(createShowMarkerToEducationBuildingButton())
   controllerElement.append(createHideMarkerToEducationBuildingButton())
 
-  function createMarker() {
-    const marker = new google.maps.Marker({
-      position: markerPosition,
-      map: mapView.getMap(),
-      icon: beachFlagImage,
-      opacity: 1,
-      zIndex: 2,
-    });
+  function createWaveMarker() {
+    const WaveMarker = createWaveMarkerConstructor(google.maps.OverlayView)
+    const waveMarker = new WaveMarker(markerPosition)
 
-    marker.addListener('click', () => {
-      if (marker.getOpacity() === 0) {
-        return;
-      }
+    // TODO : 동작 안함
+    waveMarker.addListener('click', () => {
+      console.log('waveMarker click')
       infoWindow.open({
-        anchor: marker,
+        anchor: waveMarker,
         map: mapView.getMap(),
       });
       mapView.showDimmed(1)
     })
 
-    return marker;
+    return waveMarker;
   }
 
   function createInfoWindow() {
@@ -127,7 +121,7 @@ function initController(mapView: MapView) {
     showMarkerToEducationBuildingButton.textContent = `show ${educationBuildingMapLocationPolygon.locationName} marker`
 
     showMarkerToEducationBuildingButton.addEventListener('click', () => {
-      marker.setOpacity(1)
+      console.log('waveMarker show')
     })
 
     return showMarkerToEducationBuildingButton;
@@ -139,7 +133,7 @@ function initController(mapView: MapView) {
     hideMarkerToEducationBuildingButton.textContent = `hide ${educationBuildingMapLocationPolygon.locationName} marker`
 
     hideMarkerToEducationBuildingButton.addEventListener('click', () => {
-      marker.setOpacity(0)
+      console.log('waveMarker hide')
       mapView.hideDimmed()
       infoWindow.close()
     })
