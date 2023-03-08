@@ -6,16 +6,23 @@ export function createWaveMarkerConstructor(overlayViewConstructor: OverlayViewC
   return class WaveMarker extends overlayViewConstructor {
     private readonly position: google.maps.LatLngLiteral
     private readonly containerDiv: HTMLDivElement;
+    private readonly clickAreaButton: HTMLButtonElement;
 
     constructor(position: google.maps.LatLngLiteral) {
       super()
       this.position = position;
       this.containerDiv = document.createElement("div");
-      this.containerDiv.appendChild(this.createElement())
+      this.clickAreaButton = document.createElement('button');
+      this.clickAreaButton.style.margin = '0';
+      this.clickAreaButton.style.padding = '0';
+      this.clickAreaButton.style.border = 'none';
+      this.clickAreaButton.style.backgroundColor = 'transparent';
+      this.clickAreaButton.style.cursor = 'context-menu';
+      this.containerDiv.appendChild(this.createElement(this.clickAreaButton))
     }
 
     public addEventListener(...args: Parameters<HTMLDivElement['addEventListener']>) {
-      this.containerDiv.addEventListener(...args)
+      this.clickAreaButton.addEventListener(...args)
     }
 
     public onAdd() {
@@ -51,17 +58,19 @@ export function createWaveMarkerConstructor(overlayViewConstructor: OverlayViewC
       }
     }
 
-    private createElement() {
+    private createElement(clickAreaButton: HTMLButtonElement) {
       const rootElement = document.createElement('div');
       rootElement.classList.add('animate-wrapper')
 
+      rootElement.appendChild(clickAreaButton)
+
       const emitterElement = document.createElement('div');
       emitterElement.classList.add('emitter')
-      rootElement.append(emitterElement)
+      rootElement.appendChild(emitterElement)
 
       const waveElement = document.createElement('div');
       waveElement.classList.add('wave')
-      rootElement.append(waveElement)
+      rootElement.appendChild(waveElement)
 
       return rootElement;
     }
