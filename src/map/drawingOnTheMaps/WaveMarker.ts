@@ -13,10 +13,6 @@ export function createWaveMarkerConstructor(overlayViewConstructor: OverlayViewC
       this.position = position;
       this.containerDiv = document.createElement("div");
       this.clickAreaButton = document.createElement('button');
-      this.clickAreaButton.style.margin = '0';
-      this.clickAreaButton.style.padding = '0';
-      this.clickAreaButton.style.border = 'none';
-      this.clickAreaButton.style.backgroundColor = 'transparent';
       this.clickAreaButton.style.cursor = 'context-menu';
       this.containerDiv.appendChild(this.createElement(this.clickAreaButton))
     }

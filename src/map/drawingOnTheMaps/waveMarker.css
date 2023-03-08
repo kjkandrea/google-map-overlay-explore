@@ -11,6 +11,11 @@
   width: 15px;
   height: 15px;
   z-index: 2;
+
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
+  border: none;
 }
 
 .emitter {
