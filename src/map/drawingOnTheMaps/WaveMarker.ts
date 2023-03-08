@@ -1,5 +1,5 @@
 interface OverlayViewConstructor {
-  new (): google.maps.OverlayView;
+  new(): google.maps.OverlayView;
 }
 
 export function createWaveMarkerConstructor(overlayViewConstructor: OverlayViewConstructor) {
@@ -12,6 +12,10 @@ export function createWaveMarkerConstructor(overlayViewConstructor: OverlayViewC
       this.position = position;
       this.containerDiv = document.createElement("div");
       this.containerDiv.appendChild(this.createElement())
+    }
+
+    public addEventListener(...args: Parameters<HTMLDivElement['addEventListener']>) {
+      this.containerDiv.addEventListener(...args)
     }
 
     public onAdd() {

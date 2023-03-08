@@ -59,9 +59,8 @@ function initController(mapView: MapView) {
     const WaveMarker = createWaveMarkerConstructor(google.maps.OverlayView)
     const waveMarker = new WaveMarker(markerPosition)
 
-    // TODO : 동작 안함
-    waveMarker.addListener('click', () => {
-      console.log('waveMarker click')
+    waveMarker.addEventListener('click', () => {
+      // TODO : 동작 안함. popper js 로 팝업을 아예 커스텀으로 처리하는 방안 생각중
       infoWindow.open({
         anchor: waveMarker,
         map: mapView.getMap(),
@@ -121,7 +120,7 @@ function initController(mapView: MapView) {
     showMarkerToEducationBuildingButton.textContent = `show ${educationBuildingMapLocationPolygon.locationName} marker`
 
     showMarkerToEducationBuildingButton.addEventListener('click', () => {
-      console.log('waveMarker show')
+      waveMarker.onAdd()
     })
 
     return showMarkerToEducationBuildingButton;
@@ -133,7 +132,7 @@ function initController(mapView: MapView) {
     hideMarkerToEducationBuildingButton.textContent = `hide ${educationBuildingMapLocationPolygon.locationName} marker`
 
     hideMarkerToEducationBuildingButton.addEventListener('click', () => {
-      console.log('waveMarker hide')
+      waveMarker.onRemove()
       mapView.hideDimmed()
       infoWindow.close()
     })
