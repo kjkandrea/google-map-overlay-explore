@@ -54,15 +54,19 @@ export default class MapView {
     this.map.setOptions({
       zoomControl: false
     })
+
     this.dimmedRectangle.setOptions({
-      strokeColor: "black",
-      strokeOpacity: 0.8,
-      strokeWeight: 2,
+      strokeWeight: 0,
       fillColor: "black",
       fillOpacity: 0.35,
       zIndex: zIndex,
       map: this.map,
-      bounds: this.map.getBounds() as google.maps.LatLngBounds,
+      bounds: {
+        north: 180,
+        south: -180,
+        east: 180,
+        west: -180,
+      }
     });
   }
 
